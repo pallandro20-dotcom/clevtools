@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>ClevvTools | Landing Page</title>
+    <!-- Font Awesome untuk ikon tambahan (opsional, tidak untuk lampu) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+            transition: background 0.4s ease, color 0.3s ease;
+        }
+
+        /* Mode default: dark (hitam ke biruan) */
+        body.dark {
+            background: linear-gradient(135deg, #0a0f1e 0%, #0a1a2f 50%, #0b2b3b 100%);
+            color: #f0f3fa;
+        }
+
+        /* Mode light: putih ke abu terang */
+        body.light {
+            background: linear-gradient(135deg, #f5f7fe 0%, #e9eef5 100%);
+            color: #1a2a3a;
+        }
+
+        /* Geometri melayang (banyak) */
+        .geo-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .geo-shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            animation: floatGeo 20s infinite ease-in-out;
+            opacity: 0.5;
+        }
+
+        /* Mode light, geometri lebih gelap */
+        body.light .geo-shape {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .triangle { clip-path: polygon(50% 0%, 0% 100%, 100% 100%); background: rgba(100, 180, 250, 0.15); border: none; }
+        .square { border-radius: 16px; }
+        .circle { border-radius: 50%; }
+
+        @keyframes floatGeo {
+            0% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-25px) rotate(4deg) scale(1.08); }
+            100% { transform: translateY(0px) rotate(0deg) scale(1); }
+        }
+
+        /* Banyak geometri dengan posisi acak */
+        .geo1 { width: 140px; height: 140px; top: 5%; left: -50px; animation-duration: 22s; }
+        .geo2 { width: 90px; height: 90px; bottom: 10%; right: -30px; animation-duration: 18s; animation-delay: 1s; }
+        .geo3 { width: 200px; height: 200px; top: 60%; left: -70px; animation-duration: 27s; }
+        .geo4 { width: 70px; height: 70px; top: 15%; right: 15%; animation-duration: 16s; }
+        .geo5 { width: 110px; height: 110px; bottom: 20%; left: 20%; animation-duration: 24s; }
+        .geo6 { width: 160px; height: 160px; top: 75%; right: -60px; animation-duration: 30s; }
+        .geo7 { width: 55px; height: 55px; top: 40%; left: 10%; animation-duration: 14s; }
+        .geo8 { width: 130px; height: 130px; bottom: -40px; right: 25%; animation-duration: 21s; }
+        .geo9 { width: 80px; height: 80px; top: 85%; left: 80%; animation-duration: 19s; }
+        .geo10 { width: 100px; height: 100px; top: 10%; left: 70%; animation-duration: 26s; }
+
+        /* Kontainer utama */
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 720px;
+            width: 100%;
+            background: rgba(10, 20, 30, 0.35);
+            backdrop-filter: blur(6px);
+            border-radius: 64px;
+            padding: 40px 32px 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s;
+        }
+
+        body.light .container {
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 20px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Tombol lampu (toggle) - pojok kanan atas */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            border-radius: 60px;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.3);
+            transition: all 0.2s;
+        }
+        body.light .theme-toggle {
+            background: rgba(0,0,0,0.1);
+            border-color: rgba(0,0,0,0.2);
+        }
+        .theme-toggle svg {
+            width: 28px;
+            height: 28px;
+            display: block;
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 1.5;
+            transition: stroke 0.2s;
+        }
+        body.light .theme-toggle svg {
+            stroke: #1e2a3a;
+        }
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            background: rgba(0,0,0,0.6);
+        }
+
+        /* Teks besar Clevvstore */
+        .hero-title {
+            font-size: 64px;
+            font-weight: 800;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #FFFFFF, #B0D4FF);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            margin-bottom: 32px;
+            line-height: 1.1;
+        }
+        body.light .hero-title {
+            background: linear-gradient(135deg, #0b2b3b, #1e6f9f);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Paragraf pendukung (5 paragraf) */
+        .supporting-text {
+            margin-bottom: 40px;
+        }
+        .supporting-text p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 18px;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        body.light .supporting-text p {
+            color: #1f2e3a;
+        }
+
+        /* Tombol group */
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 60px;
+            transition: all 0.25s ease;
+            text-align: center;
+            backdrop-filter: blur(4px);
+        }
+        /* Tombol Mulai Order (border gradien biru lembut) */
+        .btn-order {
+            background: linear-gradient(135deg, #0a2f5a, #0a4c6e);
+            border: 1.5px solid rgba(80, 180, 255, 0.8);
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,160,255,0.2);
+        }
+        body.light .btn-order {
+            background: linear-gradient(135deg, #1a5f8a, #0d4b6e);
+            color: white;
+            border-color: #6bc6ff;
+        }
+        .btn-order:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 20px rgba(0,160,255,0.3);
+            background: linear-gradient(135deg, #0e3f6e, #0b5f8a);
+        }
+
+        /* Tombol Lihat Contoh (border transparan, pinggiran putih) */
+        .btn-example {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+        }
+        body.light .btn-example {
+            border: 2px solid rgba(30, 60, 90, 0.7);
+            color: #1a3f5c;
+        }
+        .btn-example:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+            border-color: white;
+        }
+        body.light .btn-example:hover {
+            background: rgba(0,0,0,0.05);
+            border-color: #1a5f8a;
+        }
+
+        /* Responsive */
+        @media (max-width: 550px) {
+            .container { padding: 30px 20px 40px; }
+            .hero-title { font-size: 42px; }
+            .btn { padding: 10px 24px; font-size: 16px; }
+            .supporting-text p { font-size: 14px; }
+        }
+    </style>
+</head>
+<body class="dark">
+    <div class="geo-bg">
+        <div class="geo-shape triangle geo1"></div>
+        <div class="geo-shape square geo2"></div>
+        <div class="geo-shape circle geo3"></div>
+        <div class="geo-shape triangle geo4"></div>
+        <div class="geo-shape square geo5"></div>
+        <div class="geo-shape circle geo6"></div>
+        <div class="geo-shape triangle geo7"></div>
+        <div class="geo-shape square geo8"></div>
+        <div class="geo-shape circle geo9"></div>
+        <div class="geo-shape triangle geo10"></div>
+    </div>
+
+    <!-- Tombol lampu (logo custom SVG, bukan dari google) -->
+    <div class="theme-toggle" id="themeToggle">
+        <svg viewBox="0 0 24 24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3v1m0 16v1M3 12H2m4.5-5.5L5 5m11 11l1.5 1.5M19 12h1M5 19l1.5-1.5M19 5l-1.5 1.5" />
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 5a7 7 0 1 0 0 14 7 7 0 0 0 0-14z" fill="rgba(255,255,200,0.3)" />
+        </svg>
+    </div>
+
+    <div class="container">
+        <div class="hero-title">ClevvTools</div>
+        <div class="supporting-text">
+            <p>✨ ClevvTools adalah layanan pembuatan website shortcut & linktree custom dengan harga bersahabat. Desain modern, efek geometri, dan responsif.</p>
+            <p>⚡ Nikmati kemudahan memiliki halaman personal brand seperti Linktree, tapi dengan kode sendiri — bebas modifikasi, cepat, dan aman.</p>
+            <p>🎨 Kami mendukung fitur toggle dark/light, animasi floating, tombol interaktif, dan integrasi WhatsApp langsung ke admin.</p>
+            <p>🛠️ Cocok untuk pebisnis top up, joki game, freelancer, atau siapa saja yang butuh landing page praktis dengan harga terjangkau.</p>
+            <p>📱 100% mobile friendly, support semua browser modern. Mulai dari Rp5.000 saja — custom sesuai kebutuhanmu.</p>
+        </div>
+        <div class="button-group">
+            <a href="https://wa.me/6285791386325?text=clevv%20mau%20order%20jasa%20bikin%20web%20shortcut%20link%20bisa%20?" target="_blank" rel="noopener noreferrer" class="btn btn-order">🚀 Mulai Order</a>
+            <a href="https://clev.vercel.app" target="_blank" rel="noopener noreferrer" class="btn btn-example">👁️ Lihat Contoh</a>
+        </div>
+    </div>
+
+    <script>
+        // Toggle dark/light mode dengan tombol lampu custom
+        const toggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Cek preferensi dari localStorage
+        const savedTheme = localStorage.getItem('clevvTheme');
+        if (savedTheme === 'light') {
+            body.classList.remove('dark');
+            body.classList.add('light');
+        } else {
+            body.classList.add('dark');
+            body.classList.remove('light');
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            if (body.classList.contains('dark')) {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                localStorage.setItem('clevvTheme', 'light');
+            } else {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                localStorage.setItem('clevvTheme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>
